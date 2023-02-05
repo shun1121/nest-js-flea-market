@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsNotEmpty, IsString, MaxLength, Min } from 'class-validator';
+import { IsInt, IsNotEmpty, IsString, MaxLength, Min } from 'class-validator';
 
 export class CreateItemDto {
   @IsString()
@@ -7,7 +7,7 @@ export class CreateItemDto {
   @MaxLength(40)
   name: string;
 
-  @IsString()
+  @IsInt()
   @Min(1)
   @Type(() => Number)
   price: number;

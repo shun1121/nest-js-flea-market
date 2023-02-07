@@ -6,7 +6,7 @@ module.exports = {
   password: 'postgres',
   database: 'postgres',
   autoLoadEntities: true,
-  entities: ['dist/entities/*.entity.js'], //マイグレーションファイルの設定の際にどのentityを読み込むかの設定
+  entities: ['dist/entities/*.entity.js'], //マイグレーションファイルの作成の際にどのentityを読み込むかの設定
   migrations: ['dist/migrations/*.js'], //どのマイルレーションファイルを使用してマイグレーションを行うか
   cli: {
     entitesDir: 'src/entities',

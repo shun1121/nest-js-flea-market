@@ -1,11 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateItemDto } from './dto/create-item.dto';
 import { ItemStatus } from './item-status.enum';
-import { Item } from './item.model';
-import { v4 as uuid } from 'uuid';
+import { Item } from '../entities/item.entity'; //item.model.tsからitem.entity.tsに変更なんで？
+import { ItemReppository } from './item.repository';
 
 @Injectable()
 export class ItemsService {
+  constructor(private readonly ItemRepository: ItemReppository) {} //ItemRepositoryをDI
   private items: Item[] = [];
 
   findAll(): Item[] {
@@ -20,14 +21,9 @@ export class ItemsService {
     return found;
   }
 
-  create(CreateItemDto: CreateItemDto): Item {
-    const item: Item = {
-      id: uuid(),
-      ...CreateItemDto,
-      status: ItemStatus.ON_SALE,
-    };
-    this.items.push(item);
-    return item;
+  async create(CreateItemDto: CreateItemDto): Promise<Item> {
+    //商品オブジェクトの作成はrepositoryに移したのでserviceから削除
+    return await this.ItemRepository.createItem(CreateItemDto);
   }
 
   updateStatus(id: string): Item {

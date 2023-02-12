@@ -9,12 +9,12 @@ export class ItemsService {
   constructor(private readonly ItemRepository: ItemReppository) {} //ItemRepositoryをDI
   private items: Item[] = [];
 
-  findAll(): Item[] {
-    return this.items;
+  async findAll(): Promise<Item[]> {
+    return await this.ItemRepository.find();
   }
 
-  findById(id: string): Item {
-    const found = this.items.find((item) => item.id === id);
+  async findById(id: string): Promise<Item> {
+    const found = await this.ItemRepository.findOne(id); //itemRepositoryの中のメソッド
     if (!found) {
       throw new NotFoundException();
     }
@@ -26,11 +26,11 @@ export class ItemsService {
     return await this.ItemRepository.createItem(CreateItemDto);
   }
 
-  updateStatus(id: string): Item {
-    const item = this.findById(id);
-    item.status = ItemStatus.SOLD_OUT;
-    return item;
-  }
+  // updateStatus(id: string): Item {
+  //   const item = this.findById(id);
+  //   item.status = ItemStatus.SOLD_OUT;
+  //   return item;
+  // }
 
   delete(id: string): void {
     this.items = this.items.filter((item) => item.id !== id);

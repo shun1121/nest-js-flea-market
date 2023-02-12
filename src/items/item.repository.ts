@@ -25,6 +25,3 @@ export class ItemReppository extends Repository<Item> {
     return item;
   }
 }
-
-//errorの原因はデータベースにitemテーブルを追加していなかったから
-//マイグレーションファイルを作成した後、npx typeorm migration:runコマンドでデータベースにテーブルを反映させる

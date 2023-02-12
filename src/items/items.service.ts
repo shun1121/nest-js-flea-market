@@ -26,13 +26,17 @@ export class ItemsService {
     return await this.ItemRepository.createItem(CreateItemDto);
   }
 
-  // updateStatus(id: string): Item {
-  //   const item = this.findById(id);
-  //   item.status = ItemStatus.SOLD_OUT;
-  //   return item;
-  // }
+  async updateStatus(id: string): Promise<Item> {
+    const item = await this.findById(id);
+    item.status = ItemStatus.SOLD_OUT;
+    const updatedItem = {
+      ...item,
+    };
+    return updatedItem;
+  }
 
-  delete(id: string): void {
-    this.items = this.items.filter((item) => item.id !== id);
+  async delete(id: string): Promise<void> {
+    // this.items = this.items.filter((item) => item.id !== id);
+    await this.ItemRepository.delete(id);
   }
 }

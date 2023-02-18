@@ -8,6 +8,7 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('signup')
+  //@BodyでリクエストパラメータからcreateUserDtoを受け取る
   async signup(@Body() CreateUserDto: CreateUserDto): Promise<User> {
     return await this.authService.signUp(CreateUserDto);
   }

@@ -4,6 +4,7 @@ import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { JwtAuthGuard } from './guards/jwt-auth.guards';
 import { JwtStrategy } from './jwt.strategy';
 import { UserRepository } from './user.repository';
 
@@ -20,8 +21,8 @@ import { UserRepository } from './user.repository';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, JwtAuthGuard],
   // ↓Itemsモジュール側でも使いたい
-  exports: [JwtStrategy],
+  exports: [JwtStrategy, JwtAuthGuard],
 })
 export class AuthModule {}

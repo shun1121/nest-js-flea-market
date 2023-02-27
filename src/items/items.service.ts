@@ -14,7 +14,7 @@ export class ItemsService {
   }
 
   async findById(id: string): Promise<Item> {
-    const found = await this.ItemRepository.findOne(id); //itemRepositoryの中のメソッド
+    const found = await this.ItemRepository.findOne(id); //itemRepositoryの中のメソッド, ItemRepositoryにそんなめそっである？
     if (!found) {
       throw new NotFoundException();
     }

@@ -28,4 +28,7 @@ export class Item {
   //商品から見てユーザは多対1。第二引数にユーザーエンティティのitemsプロパティを返すコールバック関数
   @ManyToOne(() => User, (user) => user.items)
   user: User;
+
+  @Column()
+  userId: string;
 }

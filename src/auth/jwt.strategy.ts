@@ -21,6 +21,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     const user = await this.userRepository.findOne({ id, username });
 
     if (user) {
+      // リクエストオブジェクトのプロパティになる。
       return user;
     }
     throw new UnauthorizedException();

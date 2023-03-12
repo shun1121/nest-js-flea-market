@@ -3,6 +3,7 @@ import { CreateItemDto } from './dto/create-item.dto';
 import { ItemStatus } from './item-status.enum';
 import { Item } from '../entities/item.entity'; //item.model.tsからitem.entity.tsに変更なんで？
 import { ItemReppository } from './item.repository';
+import { User } from 'src/entities/user.entity';
 
 @Injectable()
 export class ItemsService {
@@ -21,9 +22,9 @@ export class ItemsService {
     return found;
   }
 
-  async create(CreateItemDto: CreateItemDto): Promise<Item> {
+  async create(CreateItemDto: CreateItemDto, user: User): Promise<Item> {
     //商品オブジェクトの作成はrepositoryに移したのでserviceから削除
-    return await this.ItemRepository.createItem(CreateItemDto);
+    return await this.ItemRepository.createItem(CreateItemDto, user);
   }
 
   async updateStatus(id: string): Promise<Item> {

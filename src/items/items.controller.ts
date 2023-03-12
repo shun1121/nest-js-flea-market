@@ -36,7 +36,7 @@ export class ItemsController {
     @GetUser() user: User,
   ): Promise<Item> {
     //↑bodyパラメータとDTOの値が等しい場合、一つにまとめて受け取れる
-    return await this.itemsService.create(CreateItemDto);
+    return await this.itemsService.create(CreateItemDto, user);
   }
 
   @Patch(':id')

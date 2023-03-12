@@ -1,5 +1,5 @@
-import { Item } from 'src/entities/item.entity'; //modelのItemではないことに注意
-import { User } from 'src/entities/user.entity';
+import { Item } from '../entities/item.entity'; //modelのItemではないことに注意
+import { User } from '../entities/user.entity';
 import { EntityRepository, Repository } from 'typeorm';
 import { CreateItemDto } from './dto/create-item.dto';
 import { ItemStatus } from './item-status.enum';

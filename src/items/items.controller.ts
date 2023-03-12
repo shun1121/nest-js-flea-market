@@ -17,6 +17,9 @@ import { ItemsService } from './items.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guards';
 import { GetUser } from 'src/auth/decorator/get-user.decorator';
 import { User } from 'src/entities/user.entity';
+import { Role } from 'src/auth/decorator/role.decorator';
+import { UserStatus } from 'src/auth/user-status.enum';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
 
 @Controller('items')
 @UseInterceptors(ClassSerializerInterceptor) //ハンドラの実行前後にロジックを追加できる。ハンドラがレスポンスを返す前にExcludeをつけたpasswordカラムを除外する。
@@ -33,7 +36,8 @@ export class ItemsController {
   }
 
   @Post() //↓DTOを使用する場合はbodyでコレーたに引数を渡す必要はない。CreateItem型の変数を定義しておけば、その中に代入される
-  @UseGuards(JwtAuthGuard)
+  @Role(UserStatus.PREMIUM)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   async create(
     @Body() CreateItemDto: CreateItemDto,
     @GetUser() user: User,

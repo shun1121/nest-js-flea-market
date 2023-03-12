@@ -1,5 +1,6 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Delete,
   Get,
@@ -8,6 +9,7 @@ import {
   Patch,
   Post,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { CreateItemDto } from './dto/create-item.dto';
 import { Item } from '../entities/item.entity';
@@ -17,6 +19,7 @@ import { GetUser } from 'src/auth/decorator/get-user.decorator';
 import { User } from 'src/entities/user.entity';
 
 @Controller('items')
+@UseInterceptors(ClassSerializerInterceptor) //ハンドラの実行前後にロジックを追加できる。ハンドラがレスポンスを返す前にExcludeをつけたpasswordカラムを除外する。
 export class ItemsController {
   constructor(private readonly itemsService: ItemsService) {}
   @Get()
@@ -36,18 +39,24 @@ export class ItemsController {
     @GetUser() user: User,
   ): Promise<Item> {
     //↑bodyパラメータとDTOの値が等しい場合、一つにまとめて受け取れる
-    return await this.itemsService.create(CreateItemDto);
+    return await this.itemsService.create(CreateItemDto, user);
   }
 
   @Patch(':id')
   @UseGuards(JwtAuthGuard)
-  async updateStatus(@Param('id', ParseUUIDPipe) id: string): Promise<Item> {
-    return await this.itemsService.updateStatus(id);
+  async updateStatus(
+    @Param('id', ParseUUIDPipe) id: string,
+    @GetUser() user: User,
+  ): Promise<Item> {
+    return await this.itemsService.updateStatus(id, user);
   }
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
-  async delete(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
-    await this.itemsService.delete(id);
+  async delete(
+    @Param('id', ParseUUIDPipe) id: string,
+    @GetUser() user: User,
+  ): Promise<void> {
+    await this.itemsService.delete(id, user);
   }
 }

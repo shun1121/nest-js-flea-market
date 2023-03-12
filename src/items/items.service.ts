@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateItemDto } from './dto/create-item.dto';
 import { ItemStatus } from './item-status.enum';
 import { Item } from '../entities/item.entity'; //item.model.tsからitem.entity.tsに変更なんで？
@@ -27,8 +31,11 @@ export class ItemsService {
     return await this.ItemRepository.createItem(CreateItemDto, user);
   }
 
-  async updateStatus(id: string): Promise<Item> {
+  async updateStatus(id: string, user: User): Promise<Item> {
     const item = await this.findById(id);
+    if (item.userId === user.id) {
+      throw new BadRequestException('自身の商品を購入することはできません。');
+    }
     item.updatedAt = new Date().toISOString();
     item.status = ItemStatus.SOLD_OUT;
     await this.ItemRepository.save(item); //オブジェクトの保存はsaveメソッド

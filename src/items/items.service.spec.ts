@@ -1,5 +1,5 @@
 import { Test } from '@nestjs/testing';
-import { ItemReppository } from './item.repository';
+import { ItemRepository } from './item.repository';
 import { ItemsService } from './items.service';
 
 const mockItemRepository = () => ({});
@@ -15,7 +15,7 @@ describe('ItemServiceTest', () => {
         ItemsService,
         {
           // データベースとの接続は行わないからItemRepositoryはmock化する必要がある。↓使用方法
-          provide: ItemReppository,
+          provide: ItemRepository,
           useFactory: mockItemRepository,
         },
       ],
@@ -23,6 +23,6 @@ describe('ItemServiceTest', () => {
 
     // moduleからItemsServiceとItemRepositoryのインスタンスを受け取る。
     itemsService = module.get<ItemsService>(ItemsService);
-    itemRepository = module.get<ItemReppository>(ItemReppository);
+    itemRepository = module.get<ItemRepository>(ItemRepository);
   });
 });

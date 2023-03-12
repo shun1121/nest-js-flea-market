@@ -6,12 +6,12 @@ import {
 import { CreateItemDto } from './dto/create-item.dto';
 import { ItemStatus } from './item-status.enum';
 import { Item } from '../entities/item.entity'; //item.model.tsからitem.entity.tsに変更なんで？
-import { ItemReppository } from './item.repository';
+import { ItemRepository } from './item.repository';
 import { User } from 'src/entities/user.entity';
 
 @Injectable()
 export class ItemsService {
-  constructor(private readonly ItemRepository: ItemReppository) {} //ItemRepositoryをDI
+  constructor(private readonly ItemRepository: ItemRepository) {} //ItemRepositoryをDI
   private items: Item[] = [];
 
   async findAll(): Promise<Item[]> {

@@ -6,7 +6,7 @@ import { ItemStatus } from './item-status.enum';
 
 // repositoryはtypeorm経由でモジュールに追加する。items.module.ts
 @EntityRepository(Item) //扱いたいエンティティーのクラスを引数に渡す。↓型にItemエンティティーをジェネリクスで指定。
-export class ItemReppository extends Repository<Item> {
+export class ItemRepository extends Repository<Item> {
   //↑extendsでデータベースとのやりとりをするのに必要なメソッドを利用できる
 
   async createItem(CreateItemDto: CreateItemDto, user: User): Promise<Item> {

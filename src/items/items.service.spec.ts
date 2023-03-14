@@ -1,4 +1,4 @@
-import { NotFoundException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { UserStatus } from '../auth/user-status.enum';
 import { ItemStatus } from './item-status.enum';
@@ -126,6 +126,13 @@ describe('ItemServiceTest', () => {
       itemRepository.findOne.mockResolvedValue(mock);
       await itemsService.updateStatus('test-id', mockUser2);
       expect(itemRepository.save).toHaveBeenCalled();
+    });
+
+    it('異常系: 自身の商品を購入', async () => {
+      itemRepository.findOne.mockResolvedValue(mock);
+      await expect(
+        itemsService.updateStatus('test-id', mockUser1),
+      ).rejects.toThrow(BadRequestException);
     });
   });
 });

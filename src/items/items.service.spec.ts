@@ -154,5 +154,12 @@ describe('ItemServiceTest', () => {
       await itemsService.delete('test-id', mockUser1);
       expect(itemRepository.delete).toHaveBeenCalled();
     });
+
+    it('異常系: 他人の商品を削除', async () => {
+      itemRepository.findOne.mockResolvedValue(mock);
+      await expect(itemsService.delete('test-id', mockUser2)).rejects.toThrow(
+        BadRequestException,
+      );
+    });
   });
 });

@@ -8,6 +8,7 @@ import { ItemsService } from './items.service';
 const mockItemRepository = () => ({
   find: jest.fn(), //findというmock関数を定義
   findOne: jest.fn(),
+  createItem: jest.fn(),
 });
 
 const mockUser1 = {
@@ -81,6 +82,30 @@ describe('ItemServiceTest', () => {
       await expect(itemsService.findById('test-id')).rejects.toThrow(
         NotFoundException, //発生する例外を記述
       );
+    });
+  });
+
+  describe('create', () => {
+    it('正常系', async () => {
+      const expected = {
+        id: 'test-id',
+        name: 'PC',
+        price: 50000,
+        description: '',
+        status: ItemStatus.ON_SALE,
+        createdAt: '',
+        updatedAt: '',
+        userId: mockUser1.id,
+        user: mockUser1,
+      };
+      itemRepository.createItem.mockResolvedValue(expected);
+      const result = await itemsService.create({
+        name: 'PC',
+        price: 50000,
+        describe: '',
+        mockUser1,
+      });
+      expect(result).toEqual(expected);
     });
   });
 });

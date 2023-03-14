@@ -1,3 +1,4 @@
+import { NotFoundException } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { UserStatus } from '../auth/user-status.enum';
 import { ItemStatus } from './item-status.enum';
@@ -73,6 +74,13 @@ describe('ItemServiceTest', () => {
       itemRepository.findOne.mockResolvedValue(expected);
       const result = await itemsService.findById('test-id');
       expect(result).toEqual(expected);
+    });
+
+    it('異常系: 商品が存在しない', async () => {
+      itemRepository.findOne.mockResolvedValue(null);
+      await expect(itemsService.findById('test-id')).rejects.toThrow(
+        NotFoundException, //発生する例外を記述
+      );
     });
   });
 });

@@ -9,6 +9,7 @@ const mockItemRepository = () => ({
   find: jest.fn(), //findというmock関数を定義
   findOne: jest.fn(),
   createItem: jest.fn(),
+  save: jest.fn(),
 });
 
 const mockUser1 = {
@@ -106,6 +107,25 @@ describe('ItemServiceTest', () => {
         mockUser1,
       });
       expect(result).toEqual(expected);
+    });
+  });
+
+  describe('updateStatus', () => {
+    const mock = {
+      id: 'test-id',
+      name: 'PC',
+      price: 50000,
+      description: '',
+      status: ItemStatus.ON_SALE,
+      createdAt: '',
+      updatedAt: '',
+      userId: mockUser1.id,
+      user: mockUser1,
+    };
+    it('正常系', async () => {
+      itemRepository.findOne.mockResolvedValue(mock);
+      await itemsService.updateStatus('test-id', mockUser2);
+      expect(itemRepository.save).toHaveBeenCalled();
     });
   });
 });
